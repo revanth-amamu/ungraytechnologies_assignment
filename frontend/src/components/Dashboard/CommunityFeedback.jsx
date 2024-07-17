@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { fetchData } from '../../services/api';
 
-const apiUrl = import.meta.env.VITE_API_FIVE;
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 const CommunityFeedback = () => {
   const [feedback, setFeedback] = useState({});
 
   useEffect(() => {
-    fetchData(apiUrl)
+    fetchData(`${baseUrl}/dashboard/community-feedback`)
       .then(response => setFeedback(response))
       .catch(error => console.error(error));
   }, []);

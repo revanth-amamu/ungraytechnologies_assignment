@@ -3,6 +3,8 @@ require('dotenv').config();
 const cors = require('cors');
 const pool = require('./config/db');
 const dashboardRouter = require('./routes/dashboard.routes');
+const authRouter = require('./routes/auth.route');
+// const { auth } = require('./middlewares/auth.middleware');
 
 const app = express();
 
@@ -10,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/dashboard', dashboardRouter);
+app.use('/auth', authRouter);
 
 
 const port = process.env.PORT || 8000;

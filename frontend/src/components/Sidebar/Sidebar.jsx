@@ -98,7 +98,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <div className="font-bold text-xl mb-2">{user}</div>
             <button
               onClick={handleLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition duration-300 text-sm font-semibold"
+              className="text-red-600 hover:text-red-500 transition duration-300 text-xl font-bold"
             >
               <LuLogOut />
             </button>

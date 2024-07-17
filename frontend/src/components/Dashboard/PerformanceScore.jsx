@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../../services/api";
 
-const apiUrl = import.meta.env.VITE_API_THREE;
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 const PerformanceScore = () => {
   const [data, setData] = useState({ score: 0 });
 
   useEffect(() => {
-    fetchData(apiUrl)
+    fetchData(`${baseUrl}/dashboard/performance-score`)
       .then((response) => {
         setData(response);
       })

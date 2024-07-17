@@ -1,56 +1,61 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = import.meta.env.VITE_LOGIN_API;
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
+  console.log(user);
   const login = async (username, password) => {
-    let isValid = true;
-    let errors = ['Incorrect Password', 'Incorrect Username'];
     try {
-      const response = await axios.post(apiUrl, { 
+      const response = await axios.post(`${baseUrl}/auth/login`, { 
         username, 
         password,
-        email: '', 
-        phone_number: '', 
-        input_code: 0
       });
-
-      if (errors.includes(response.data.message)) {
-        isValid = false;
-      }
-
-      if (response.status === 200 && isValid) {
-        setIsAuthenticated(true);
-        setUser(username);
+      
+      if (response.data.token) {
+        setToken(response.data.token);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', username);
+        toast.success('Logout successful');
         navigate('/dashboard');
-        toast.success('Login successful');
-      }
-      else {
-        toast.error(response.data.message);
+      } else {
+        toast.error(response.data.msg);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.error('Login failed');
+      console.log(error.message);
     }
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
+    setToken(null);
     setUser('');
+    localStorage.removeItem('token');
     toast.success('Logout successful');
-    navigate('/');
+    navigate('/login');
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

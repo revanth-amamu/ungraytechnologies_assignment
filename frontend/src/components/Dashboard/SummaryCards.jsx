@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { fetchData } from "../../services/api";
 import { RiArrowUpLine, RiArrowDownLine } from "react-icons/ri";
 
-const apiUrl = import.meta.env.VITE_API_ONE;
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 const SummaryCards = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    fetchData(apiUrl)
+    fetchData(`${baseUrl}/dashboard/summary-cards`)
       .then((response) => setData(response))
       .catch((error) => console.error(error));
   }, []);

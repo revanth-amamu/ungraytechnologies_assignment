@@ -16,8 +16,8 @@ const Login = () => {
     try {
       await login(username, password);
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.response?.data?.message || 'Login failed');
+      console.log(error);
+      // toast.error('Login failed');
     } finally {
       setLoading(false);
     }

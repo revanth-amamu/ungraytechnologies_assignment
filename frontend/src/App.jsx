@@ -5,18 +5,18 @@ import Layout from './pages/Layout';
 import useAuth from './hooks/useAuth';
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { token } = useAuth();
   return (
       <Routes>
-      {isAuthenticated ? (
+      {token ? (
         <Route path="/" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       ) : (
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
       )}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }
