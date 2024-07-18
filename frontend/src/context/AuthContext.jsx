@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  console.log(user);
+  // console.log(user);
   const login = async (username, password) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, { 
@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser('');
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     toast.success('Logout successful');
     navigate('/login');
   };
